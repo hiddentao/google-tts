@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Text-to-Speech API demo</title>
+
+    <meta charset="utf-8" />
+
+    <style type="text/css">
+        #error {
+            margin: 1em 0;
+            color: #f00;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 5em;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Demo of Google Text-to-Speech API</h1>
+
+<div>
+    <label for="language">Language:</label>
+    <select id="language">
+        <option value="" disabled="disabled">(Select language)</option>
+    </select>
+</div>
+<div>
+    <label for="text">Text:</label>
+    <input type="text" size="30" id="text" value="">
+</div>
+
+<button>Play!</button>
+
+<div id="error"></div>
+
+
+<footer>
+    <p>Source: <a href="https://github.com/hiddentao/google-tts">https://github.com/hiddentao/google-tts</a></p>
+    <p>Developed by <a href="https://twitter.com/hiddentao">Ramesh Nair</a>, based on code by <a href="http://weston.ruter.net/projects/google-tts/">Weston Ruter</a>.</p>
+</footer>
+
+<script type="text/javascript" src="google-tts.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var googleTts = new window.GoogleTTS();
+
+        // setup language options
+        $.each(googleTts.languages(), function(key, value) {
+            $('#language').append('<option value="' + key + '">' + value + '</option>');
+        });
+
+        // play
+        $("button").click(function() {
+            googleTts.play($("#text").val(), $("#language").val(), function(err) {
+                if (err) {
+                    $("#error").text(err.toString());
+                }
+            });
+        });
+
+        // defaults
+        $("#language").val('zh-CN');
+        $("#text").val('中文');
+    });
+</script>
+
+
+</body>
+</html>
