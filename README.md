@@ -16,9 +16,7 @@ Add the following inside your HTML `<body>` tag, near the bottom:
 
     <script type="text/javascript" src="https://raw.github.com/hiddentao/google-tts/google-tts.min.js"></script>
 
-## Usage
-
-Once the script is loaded the following API is available to you:
+## API
 
 ### Initialization
 
@@ -29,7 +27,7 @@ default language, pass in the language code during initialization:
 
     var tts = new GoogleTTS('fr');   // French
 
-### languages()
+### .languages()
 
 Get the full list of supported languages.
 
@@ -42,27 +40,29 @@ Get the full list of supported languages.
         ...
     }
 
-### canPlay()
+### .canPlay()
 
 Get whether the Text-to-Speech audio can be played by the browser.
 
 **Returns:** `true` if so, `false` otherwise.
 
-### url(text, language)
+### .url(text, language)
 
 Construct the URL to fetch the speech audio for given text and language.
 
 **Params:**
+
   * `text` - the text to convert to speech.
   * `language` - the language to speak it in. If omitted then the default language (see above) is assumed.
 
 **Returns:** a URL to the audio file.
 
-### play(text, language)
+### .play(text, language, cb)
 
 Fetch and play the speech audio for given text and language.
 
 **Params:**
+
   * `text` - the text to convert to speech.
   * `language` - the language to speak it in. If omitted then the default language (see above) is assumed.
   * `cb` - Completion callback function with signature `(err)`, where `err` holds information on any errors which may occur.
