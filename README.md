@@ -1,7 +1,11 @@
 # Google TTS
 
-A Javascript API for the Google's ext-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/. This enables
-you to add Text-to-Speech functionality to your web apps!
+A Javascript API for the Google's ext-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
+
+**NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
+returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. If you want to add
+background playback to your online site perhaps [SoundManager](http://www.schillmania.com/projects/soundmanager2/)
+will do the trick (I haven't tested this).
 
 ## Features
 
@@ -14,7 +18,7 @@ you to add Text-to-Speech functionality to your web apps!
 
 Add the following inside your HTML `<body>` tag, near the bottom:
 
-    <script type="text/javascript" src="https://raw.github.com/hiddentao/google-tts/google-tts.min.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/hiddentao/google-tts/master/google-tts.min.js"></script>
 
 ## API
 
@@ -61,7 +65,7 @@ Construct the URL to fetch the speech audio for given text and language.
 
 ### .play(text, language, cb)
 
-Fetch and play the speech audio for given text and language.
+Fetch and play the speech audio for given text and language, if possible (see top).
 
 **Params:**
 
@@ -69,6 +73,9 @@ Fetch and play the speech audio for given text and language.
   * `language` - the language to speak it in. If omitted then the default language (see above) is assumed.
   * `cb` - Completion callback function with signature `(err)`, where `err` holds information on any errors which may occur.
 
+## Demo
+
+Checkout the code and double-click `index.html`.
 
 ## License
 
