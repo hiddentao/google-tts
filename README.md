@@ -5,7 +5,7 @@ A Javascript API for the Google's ext-to-Speech engine and is based on code at h
 **NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
 returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. If you want to add
 background playback to your online site perhaps [SoundManager](http://www.schillmania.com/projects/soundmanager2/)
-will do the trick (I haven't tested this).
+will do the trick (I haven't tested this). On the other hand, I'm assumng this will still work in Phonegap apps.
 
 ## Features
 
