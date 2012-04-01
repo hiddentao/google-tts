@@ -18,14 +18,16 @@ Add the following inside your HTML `<body>` tag, near the bottom:
 
 ## API
 
-### Initialization
+### new GoogleTTS(language)
 
-    var tts = new GoogleTTS();
+Initialize a new instance of the library, e.g:
 
-This initializes a new instance of the library with the default language set to _English (en)_. To set a different
-default language, pass in the language code during initialization:
+    var tts = new GoogleTTS('zh-CN');
 
-    var tts = new GoogleTTS('fr');   // French
+**Params:**
+
+  * `language` - the default language to speak in when not otherwise specified. If omitted then English is assumed.
+
 
 ### .languages()
 
