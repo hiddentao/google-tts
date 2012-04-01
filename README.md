@@ -1,7 +1,7 @@
 # Google TTS
 
-A Javascript library to enable Text-to-Speech functionality in your web apps. This is essentially an API for Google's
-Text-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
+A Javascript API for the Google's ext-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/. This enables
+you to add Text-to-Speech functionality to your web apps!
 
 ## Features
 
