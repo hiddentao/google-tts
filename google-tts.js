@@ -143,7 +143,7 @@
       if (!txt || 0 >= txt.length)
         throw new Error('Need some text');
 
-      return 'http://translate.google.com/translate_tts?ie=UTF-8&tl=' + lang + '&q=' + txt;
+      return 'http://translate.google.com/translate_tts?ie=utf-8&tl=' + lang + '&q=' + txt;
     };
 
     /**
