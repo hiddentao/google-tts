@@ -12,7 +12,7 @@ will do the trick (I haven't tested this). On the other hand, I'm assumng this w
 * Converts upto 42 languages
 * Supports playback through [HTML5 Audio tag](https://developer.mozilla.org/En/HTML/Element/Audio) if available in browser.
 * Asynchronous playback API
-* Small and compact: <1 KB minifed and gzipped
+* Small and compact: ~1 KB minified and gzipped
 
 ## Installation
 
