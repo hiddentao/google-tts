@@ -1,6 +1,6 @@
 # Google TTS
 
-A Javascript API for the Google's ext-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
+A Javascript API for the Google's text-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
 
 **NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
 returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. If you want to add
