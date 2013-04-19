@@ -25,6 +25,7 @@
 
 <div id="error"></div>
 
+<p><strong>Player: </strong><span id="tts_player"></span></p>
 
 <footer>
     <p>Source: <a href="https://github.com/hiddentao/google-tts">https://github.com/hiddentao/google-tts</a></p>
@@ -32,14 +33,19 @@
 </footer>
 
 <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="google-tts.min.js"></script>
+<script type="text/javascript" src="google-tts.js"></script>
+<script type="text/javascript" src="soundmanager2.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        if (!window.GoogleTTS) {
-           $("#error").text("Sorry, the google-tts script couldn't be loaded.");
-           return;
-        } else {
-           var HTML = '\
+      soundManager.setup({
+        url: '/',
+        preferFlash: false,
+        onready: function() {
+          if (!window.GoogleTTS) {
+            $("#error").text("Sorry, the google-tts script couldn't be loaded.");
+            return;
+          } else {
+            var HTML = '\
             <div> \
                 <label for="demo_language">Language:</label> \
                 <select id="demo_language"> \
@@ -52,28 +58,43 @@
             </div> \
             <button id="demo_play">Play!</button> \
             ';
-          $("#tts_demo").html(HTML);
-        }
+            $("#tts_demo").html(HTML);
+          }
 
-        var googleTts = new window.GoogleTTS();
+          var googleTTS = new window.GoogleTTS();
 
-        // setup language options
-        $.each(googleTts.languages(), function(key, value) {
+          // setup language options
+          $.each(googleTTS.languages(), function(key, value) {
             $('#demo_language').append('<option value="' + key + '">' + value + '</option>');
-        });
+          });
 
-        // play
-        $("#demo_play").click(function() {
-            googleTts.play($("#demo_text").val(), $("#demo_language").val(), function(err) {
-                if (err) {
-                    alert(err.toString());
-                }
+          // play
+          $("#demo_play").click(function() {
+            googleTTS.play($("#demo_text").val(), $("#demo_language").val(), function(err) {
+              if (err) {
+                $("#error").text(err.toString());
+              }
             });
-        });
+          });
 
-        // defaults
-        $("#demo_language").val('zh-CN');
-        $("#demo_text").val('中文');
+          // defaults
+          $("#demo_language").val('zh-CN');
+          $("#demo_text").val('中文');
+
+          // available player
+          googleTTS.getPlayer(function (err, player) {
+            if (err) {
+              return $("#error").text(err.toString());
+            }
+
+            if (player) {
+              $("#tts_player").text(player.toString());
+            } else {
+              $("#tts_player").text('None available');
+            }
+          });
+        }
+      });
     });
 </script>
 
