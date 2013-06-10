@@ -21,7 +21,11 @@ at the moment only really good for use in browser plugins and Phonegap apps.
 
 Add the following inside your HTML `<body>` tag, near the bottom:
 
-    <script type="text/javascript" src="https://raw.github.com/hiddentao/google-tts/master/google-tts.min.js"></script>
+    <script type="text/javascript" src="https://rawgithub.com/hiddentao/google-tts/master/google-tts.min.js"></script>
+
+You can also install using [bower](https://github.com/bower/bower):
+
+    $ bower install google-tts
 
 ## API
 

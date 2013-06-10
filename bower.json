@@ -1,0 +1,9 @@
+{
+  "name": "google-tts",
+  "version": "1.0.1",
+  "main": "google-tts.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules"
+  ]
+}
