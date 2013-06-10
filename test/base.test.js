@@ -125,7 +125,7 @@ test['construct URLs'] = {
     var urls = self.inst.urls('test');
 
     expect(urls).to.eql([
-      'http://translate.google.com/translate_tts?ie=utf-8&tl=fr&q=test&textlen=4&idx=0&total=1'
+      'http://translate.google.com/translate_tts?ie=UTF-8&tl=fr&q=test&textlen=4&idx=0&total=1'
     ]);
   },
   'non-default language': function() {
@@ -135,7 +135,7 @@ test['construct URLs'] = {
     var urls = self.inst.urls('test', 'en');
 
     expect(urls).to.eql([
-      'http://translate.google.com/translate_tts?ie=utf-8&tl=en&q=test&textlen=4&idx=0&total=1'
+      'http://translate.google.com/translate_tts?ie=UTF-8&tl=en&q=test&textlen=4&idx=0&total=1'
     ]);
   },
   'slices at 100 characters': function() {
@@ -148,8 +148,8 @@ test['construct URLs'] = {
     var urls = self.inst.urls('test', 'en');
 
     expect(urls).to.eql([
-      'http://translate.google.com/translate_tts?ie=utf-8&tl=en&q=abc&textlen=3&idx=0&total=2',
-      'http://translate.google.com/translate_tts?ie=utf-8&tl=en&q=def&textlen=3&idx=1&total=2'
+      'http://translate.google.com/translate_tts?ie=UTF-8&tl=en&q=abc&textlen=3&idx=0&total=2',
+      'http://translate.google.com/translate_tts?ie=UTF-8&tl=en&q=def&textlen=3&idx=1&total=2'
     ]);
 
     spy.should.have.been.calledOnce;
