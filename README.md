@@ -11,6 +11,7 @@ at the moment only really good for use in browser plugins and Phonegap apps.
 * Converts upto 42 languages
 * Supports playback through [HTML5 Audio tag](https://developer.mozilla.org/En/HTML/Element/Audio) if available in browser.
 * Asynchronous playback API
+* Splits up large inputs (>100 chars) into multiple consecutive requests (just like Google Translates does).
 * Small and compact: ~1.5 KB minified and gzipped
 
 ## Installation
@@ -108,10 +109,11 @@ For browsers which support HTML5 Audio MP3 playback you can launch `index.html` 
 
 For browsers which need to use SoundManager2 you will need to setup a `localhost` dev site which serves up index.html.
 
-## Build
+## Build and Test
 
 If you make changes, before you raise a pull request build the project:
 
+    $ npm install
     $ grunt
 
 ## License

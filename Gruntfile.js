@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function (grunt) {
-  var srcFolder = __dirname + '/src';
+  var srcFolder = __dirname + '/src',
+    testFodler = __dirname + '/test';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -45,6 +46,18 @@ module.exports = function (grunt) {
       ]
     },
 
+    mochaTest:{
+      test: {
+        options:{
+          reporter:'spec',
+          ui:'exports'
+        },
+        src: [
+          testFodler + '/*.test.js'
+        ]
+      }
+    },
+
     uglify: {
       dist: {
         files: {
@@ -57,8 +70,9 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
-  grunt.registerTask('build', 'Build project', ['jshint', 'uglify']);
+  grunt.registerTask('build', 'Build project', ['jshint', 'mochaTest', 'uglify']);
 
   grunt.registerTask('default', ['build']);
 };

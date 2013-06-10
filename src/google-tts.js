@@ -29,11 +29,21 @@
   var TTS = function(defaultLanguage) {
     var self = this;
 
+
+    /**
+     * Maximum no. of characters which can be be submitted in a single request.
+     *
+     * This value was found through trial-and-error, see https://github.com/hiddentao/google-tts/issues/9
+     * @type {Number}
+     */
+    var MAX_CHARS_PER_REQUEST = 100;
+
+
     /**
      * Default language (code).
      * @type {String}
      */
-    defaultLanguage = defaultLanguage || 'en';
+    self.defaultLanguage = defaultLanguage || 'en';
 
     /**
      * Full list of languages.
@@ -86,8 +96,12 @@
     };
 
 
-    // audio players
-    var players = [
+    /**
+     * Available players.
+     * @type {Array}
+     * @private
+     */
+    self._players = [
       new TTS.HTML5Player,
       new TTS.SM2Player
     ];
@@ -97,9 +111,13 @@
      * Add in a playback mechanism.
      *
      * @param pm TTS.Player a concrete subclass instance.
+     * @throws Error if passed-in item is not an instance of GoogleTTS.Player
      */
     self.addPlayer = function(pm) {
-      players.push(pm);
+      if (!(pm instanceof TTS.Player))
+        throw new Error('Must be a instance of base Player class');
+
+      self._players.push(pm);
     };
 
 
@@ -130,13 +148,13 @@
 
       (_testNextMechanism = function() {
         // none available?
-        if (players.length <= (++index)) {
+        if (self._players.length <= (++index)) {
           return cb();
         }
 
-        players[index].available(function(canPlay) {
+        self._players[index].available(function(canPlay) {
           if (canPlay) {
-            self.availablePlayer = players[index];
+            self.availablePlayer = self._players[index];
             return cb(null, self.availablePlayer);
           } else {
             _testNextMechanism();
@@ -147,17 +165,49 @@
 
 
     /**
-     * Construct the URL to fetch the speech audio for given text and language.
-     * @param txt the text.
-     * @param lang the language of the text. If omitted then default language is used.
+     * Construct the URLs to fetch the speech audio for given text and language.
+     * @param txt {String} the text.
+     * @param lang {String} the language of the text. If omitted then default language is used.
      */
-    self.url = function(txt, lang) {
-      lang = lang || defaultLanguage;
+    self.urls = function(txt, lang) {
+      lang = lang || self.defaultLanguage;
 
       if (!txt || 0 >= txt.length)
         throw new Error('Need some text');
 
-      return 'http://translate.google.com/translate_tts?ie=utf-8&tl=' + lang + '&q=' + txt;
+      var slices = self._sliceInput(txt, MAX_CHARS_PER_REQUEST),
+        urls = [];
+
+      for (var i=0; i<slices.length; ++i) {
+        var slice = slices[i];
+
+        urls.push(
+          'http://translate.google.com/translate_tts?ie=utf-8&tl=' + lang + '&q=' + slice + '&textlen=' + slice.length + '&idx=' + i + '&total=' + slices.length
+        );
+      }
+
+      return urls;
+    };
+
+
+
+    /**
+     * Slice up given input text.
+     * @param txt {String} the input text.
+     * @param maxSliceLength {Integer} maximum length of each slice.
+     * @return {Array} list of slices.
+     * @private
+     */
+    self._sliceInput = function(txt, maxSliceLength) {
+      var slices = [],
+        start = 0;
+
+      do {
+        slices.push(txt.slice(start, start + maxSliceLength));
+        start += maxSliceLength;
+      } while (txt.length > start);
+
+      return slices;
     };
 
 
@@ -174,7 +224,15 @@
         if (err) return cb(err);
         if (!player) return cb(new Error('No playback mechanism is available'));
 
-        player.play(self.url(txt, lang), cb);
+        var urls = self.urls(txt, lang),
+          _playFn = null;
+
+        (_playFn = function(err) {
+          if (err) return cb(err);
+          if (0 >= urls.length) return cb();
+
+          player.play(urls.shift(), _playFn);
+        }).call();
       });
     };
   };
@@ -205,7 +263,7 @@
     /**
      * Play given URL.
      * @param url String
-     * @param cb Function Called after we start playing (Error err)
+     * @param cb Function Called after we finish playing (Error err)
      */
     self.play = function(url, cb) { throw new Error('Not yet implemented'); };
 
@@ -279,9 +337,10 @@
       try {
         var audio = new Audio();
         audio.src = url;
+        audio.addEventListener('ended', function() {
+          cb();
+        });
         audio.play();
-
-        cb();
       } catch (e) {
         return cb(e);
       }
@@ -318,12 +377,8 @@
         (window.soundManager.createSound({
           id: 'googletts-' + self._unique_instance_id + '-' + (++self._soundId),
           url: url,
-          onload: function() {
-            console.log('Loaded: ' + url);
-          }
+          onfinish: cb
         })).play();
-
-        cb();
       } catch (err) {
         cb(err);
       }

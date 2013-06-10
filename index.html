@@ -14,6 +14,9 @@
         footer {
             margin-top: 5em;
         }
+        textarea {
+          display: block;
+        }
     </style>
 </head>
 
@@ -54,7 +57,7 @@
             </div> \
             <div> \
                 <label for="demo_text">Text:</label> \
-                <input type="text" size="30" id="demo_text" value=""> \
+                <textarea rows="5" cols="60" id="demo_text" /> \
             </div> \
             <button id="demo_play">Play!</button> \
             ';
@@ -74,12 +77,21 @@
               if (err) {
                 $("#error").text(err.toString());
               }
+
+              console.log('Finished playing');
             });
           });
 
           // defaults
           $("#demo_language").val('zh-CN');
           $("#demo_text").val('中文');
+
+          // char count
+          $("#demo_text").keyup(function() {
+            console.log('test');
+            var chars = $("#demo_text").val();
+            $("label[for=demo_text]").text("Text: (" + chars.length + "):");
+          });
 
           // available player
           googleTTS.getPlayer(function (err, player) {
