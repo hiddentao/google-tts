@@ -1,8 +1,13 @@
 # Google TTS
 
+[![Build Status](https://secure.travis-ci.org/hiddentao/google-tts.png?branch=master)](http://travis-ci.org/hiddentao/google-tts)
+
 A Javascript API for the Google's text-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
 
-Live demo: [http://hiddentao.github.io/google-tts/](http://hiddentao.github.io/google-tts/)
+
+**NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
+returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. So this library is
+at the moment only really good for use in browser plugins and Phonegap apps.
 
 ## Features
 
@@ -106,8 +111,6 @@ mechanism by extending this class and then adding an instance of your custom mec
 For browsers which support HTML5 Audio MP3 playback you can launch `index.html` directly in the browser.
 
 For browsers which need to use SoundManager2 you will need to setup a `localhost` dev site which serves up index.html.
-
-Live demo: [http://hiddentao.github.io/google-tts/](http://hiddentao.github.io/google-tts/)
 
 ## Build and Test
 
