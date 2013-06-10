@@ -2,19 +2,16 @@
 
 A Javascript API for the Google's text-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
 
-A couple of things to note:
-
 **NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
-returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. If you want to add
-background playback to your online site perhaps [SoundManager](http://www.schillmania.com/projects/soundmanager2/)
-will do the trick (I haven't tested this). On the other hand, I'm assumng this will still work in Phonegap apps.
+returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. So this library is
+at the moment only really good for use in browser plugins and Phonegap apps.
 
 ## Features
 
 * Converts upto 42 languages
 * Supports playback through [HTML5 Audio tag](https://developer.mozilla.org/En/HTML/Element/Audio) if available in browser.
 * Asynchronous playback API
-* Small and compact: ~1 KB minified and gzipped
+* Small and compact: ~1.5 KB minified and gzipped
 
 ## Installation
 
@@ -48,12 +45,6 @@ Get the full list of supported languages.
         ...
     }
 
-### .canPlay()
-
-Get whether the Text-to-Speech audio can be played by the browser.
-
-**Returns:** `true` if so, `false` otherwise.
-
 ### .url(text, language)
 
 Construct the URL to fetch the speech audio for given text and language.
@@ -75,15 +66,59 @@ Fetch and play the speech audio for given text and language, if possible (see to
   * `language` - the language to speak it in. If omitted then the default language (see above) is assumed.
   * `cb` - Completion callback function with signature `(err)`, where `err` holds information on any errors which may occur.
 
+
+### .getPlayer(cb)
+
+Get the active playback mechanism (see below).
+
+**Params:**
+
+  * `cb` - Completion callback function with signature `(err, player)`, where `err` holds information on any errors which may occur. `player` is an instance of `GoogleTTS.Player`.
+
+
+### .addPlayer(player)
+
+Add a playback mechanism (see below).
+
+**Params:**
+
+  * `player` - An instance of `GoogleTTS.Player`.
+
+
+## Playback mechanisms
+
+At the mmoent there are two supported playback mechanisms:
+
+  * HTML5 audio tag
+    * As of June 10th 2013 only Safari and Chrome support MP3 playback
+  * [SoundManager2](http://www.schillmania.com/projects/soundmanager2/)
+    * On Firefox we need this to do MP3 playback, using Flash.
+
+When you first call `play()` the library calls `getPlayer()`, which then cycles through the available playback
+mechanisms until a supported one is found. If no playback mechanism is supported in the current browser then an error
+get thrown - *No playback mechanism is available*.
+
+Each playback mechanism is implemented as a sub-class of `GoogleTTS.Player`. You can implement your own playback
+mechanism by extending this class and then adding an instance of your custom mechanism via `addPlayer()`.
+
+
 ## Demo
 
-Checkout the code and double-click `index.html`.
+For browsers which support HTML5 Audio MP3 playback you can launch `index.html` directly in the browser.
+
+For browsers which need to use SoundManager2 you will need to setup a `localhost` dev site which serves up index.html.
+
+## Build
+
+If you make changes, before you raise a pull request build the project:
+
+    $ grunt
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2012 Ramesh Nair &lt;www.hiddentao.com&gt;
+Copyright (c) Ramesh Nair &lt;www.hiddentao.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

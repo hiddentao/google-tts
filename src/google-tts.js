@@ -1,11 +1,16 @@
 /*! google-tts v1.0.0 | https://github.com/hiddentao/google-tts */
 (function (name, definition){
+  'use strict';
+
   if ('function' === typeof define){ // AMD
     define(definition);
   } else if ('undefined' !== typeof module && module.exports) { // Node.js
     module.exports = definition();
   } else { // Browser
-    var theModule = definition(), global = this, old = global[name];
+    var global = window || this,
+      old = global[name],
+      theModule = definition();
+
     theModule.noConflict = function () {
       global[name] = old;
       return theModule;
@@ -13,6 +18,8 @@
     global[name] = theModule;
   }
 })('GoogleTTS', function () {
+  'use strict';
+
   /**
    * The API instance.
    *
@@ -81,8 +88,8 @@
 
     // audio players
     var players = [
-        new TTS.HTML5Player,
-        new TTS.SM2Player
+      new TTS.HTML5Player,
+      new TTS.SM2Player
     ];
 
 
@@ -135,7 +142,7 @@
             _testNextMechanism();
           }
         });
-      })();
+      }).call();
     };
 
 
@@ -165,7 +172,7 @@
     self.play = function(txt, lang, cb) {
       self.getPlayer(function (err, player) {
         if (err) return cb(err);
-        if (!player) return cb(new Error('No playback mechanism is avaialble'));
+        if (!player) return cb(new Error('No playback mechanism is available'));
 
         player.play(self.url(txt, lang), cb);
       });
@@ -174,10 +181,10 @@
 
 
   // OOP inheritance
-  var _inherits = function( childConstructor, parentClassOrObject ) {
-    childConstructor.prototype = new parentClassOrObject;
+  var _inherits = function( childConstructor, ParentClassOrObject ) {
+    childConstructor.prototype = new ParentClassOrObject;
     childConstructor.prototype.constructor = childConstructor;
-    childConstructor.prototype.parent = parentClassOrObject.prototype;
+    childConstructor.prototype.parent = ParentClassOrObject.prototype;
   };
 
 
@@ -246,7 +253,7 @@
             }, false);
 
             //Smallest base64-encoded MP3 I could come up with (less than 0.000001 seconds long)
-            audio.src = "data:audio/mpeg;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+            audio.src = "data:audio/mpeg;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
 
             audio.load();
           }
@@ -280,7 +287,7 @@
       }
     };
 
-    self.toString = function() { return 'HTML5 Audio'; }
+    self.toString = function() { return 'HTML5 Audio'; };
   };
   _inherits(TTS.HTML5Player, TTS.Player);
 
@@ -294,7 +301,7 @@
 
     self._available = null;
     self._soundId = 0;
-    self._unique_instance_id = parseInt(Math.random() * 1000);
+    self._unique_instance_id = parseInt(Math.random() * 1000, 10);
 
     self.available = function(cb) {
       if (null === self._available) {
@@ -308,7 +315,7 @@
 
     self.play = function(url, cb) {
       try {
-        (soundManager.createSound({
+        (window.soundManager.createSound({
           id: 'googletts-' + self._unique_instance_id + '-' + (++self._soundId),
           url: url,
           onload: function() {
@@ -322,7 +329,7 @@
       }
     };
 
-    self.toString = function() { return 'SoundManager2'; }
+    self.toString = function() { return 'SoundManager2'; };
   };
   _inherits(TTS.SM2Player, TTS.Player);
 
