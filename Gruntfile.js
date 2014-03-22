@@ -64,15 +64,27 @@ module.exports = function (grunt) {
           'google-tts.min.js': [srcFolder + '/google-tts.js']
         }
       }
+    },
+
+    devserver: { 
+      options: { 
+        'port' : 8888,
+        'base': '.'
+      },
+      server: {}
     }
+
   });
 
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-devserver');
 
   grunt.registerTask('build', 'Build project', ['jshint', 'mochaTest', 'uglify']);
+
+  grunt.registerTask('dev', 'Run dev server for local testing', ['devserver']);
 
   grunt.registerTask('default', ['build']);
 };

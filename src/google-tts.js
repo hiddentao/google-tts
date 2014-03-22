@@ -182,7 +182,7 @@
         var slice = slices[i];
 
         urls.push(
-          'http://translate.google.com/translate_tts?ie=UTF-8&tl=' + lang + '&q=' + slice + '&textlen=' + slice.length + '&idx=' + i + '&total=' + slices.length
+          'http://translate.google.com/translate_tts?ie=UTF-8&tl=' + lang + '&q=' + encodeURIComponent(slice) + '&textlen=' + slice.length + '&idx=' + i + '&total=' + slices.length
         );
       }
 

@@ -4,10 +4,9 @@
 
 A Javascript API for the Google's text-to-Speech engine and is based on code at http://weston.ruter.net/projects/google-tts/.
 
-
-**NOTE:** Playback (`.play()` below) will only work when running the script locally as Google's server only
+**NOTE: Playbackwill only work when running the script locally as Google's server only
 returns audio if you can prevent the browser from sending the Referrer HTTP Header to their server. So this library is
-at the moment only really good for use in browser plugins and Phonegap apps.
+at the moment only really good for use in browser plugins and Phonegap apps.**
 
 ## Features
 
@@ -112,9 +111,13 @@ mechanism by extending this class and then adding an instance of your custom mec
 
 ## Demo
 
-For browsers which support HTML5 Audio MP3 playback you can launch `index.html` directly in the browser.
+For browsers which support HTML5 Audio MP3 playback (e.g. Firefox) you can launch `index.html` directly in the browser.
 
-For browsers which need to use SoundManager2 you will need to setup a `localhost` dev site which serves up index.html.
+For browsers which need to use the SoundManager2 Flash player (e.g. Chrome) there is at the moment no way of getting it work without running a local dev server which serves up the files. This is necessary so that the flash player works, yet it means that the request to Google's servers will be rejected because of the HTTP referrer header. If you would still like to try then run the following:
+
+1. Run `grunt dev` to start the simple HTTP server
+2. Open `127.0.0.1:8888` in your browser
+
 
 ## Build and Test
 
@@ -125,12 +128,4 @@ If you make changes, before you raise a pull request build the project:
 
 ## License
 
-(The MIT License)
-
-Copyright (c) Ramesh Nair &lt;www.hiddentao.com&gt;
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT - see [LICENSE.md](https://github.com/hiddentao/google-tts/blob/master/LICENSE.md)
