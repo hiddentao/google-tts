@@ -94,7 +94,7 @@ Add a playback mechanism (see below).
 
 ## Playback mechanisms
 
-At the mmoent there are two supported playback mechanisms:
+At the moment there are two supported playback mechanisms:
 
   * HTML5 audio tag
     * As of June 10th 2013 only Safari and Chrome support MP3 playback
