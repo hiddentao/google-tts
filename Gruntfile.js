@@ -2,7 +2,7 @@
 
 module.exports = function (grunt) {
   var srcFolder = __dirname + '/src',
-    testFodler = __dirname + '/test';
+    testFolder = 'test';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -52,9 +52,7 @@ module.exports = function (grunt) {
           reporter:'spec',
           ui:'exports'
         },
-        src: [
-          testFodler + '/*.test.js'
-        ]
+        src: [testFolder + '/**/*.test.js']
       }
     },
 
